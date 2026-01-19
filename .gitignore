@@ -1,0 +1,35 @@
+# IDE files
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+db.sqlite3
+*.log
+
+# Gradle
+.gradle/
+build/
+local.properties
+StegnoSpeech_backend/app/build/
+StegnoSpeech_backend/.gradle/
+StegnoSpeech_backend/build/
+
+# Android
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx/
+*.apk
+*.ap_
+*.aab
+*.jar
+*.keystore
+*.jks
+local.properties
+/app/build
+/build
+.cxx
+.idea
+*.iml

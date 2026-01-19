@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SteganoSpeech</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1D4ED8", // vibrant blue
+                        secondary: "#0F172A", // deep navy
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0F172A",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            min-height: max(884px, 100dvh);
+        }
+
+        .blue-gradient-bg {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+        }
+
+        .dark .blue-gradient-bg {
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+        }
+
+        @keyframes bounce {
+            from {
+                transform: scaleY(1);
+            }
+
+            to {
+                transform: scaleY(2);
+            }
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen">
+    <div class="h-12 w-full bg-transparent"></div>
+    <div class="max-w-md mx-auto px-6 pb-20 space-y-10">
+        <header class="flex items-center justify-between pt-4">
+            <div class="flex items-center gap-3">
+                <h1 class="text-3xl font-extrabold tracking-tight dark:text-white">SteganoSpeech</h1>
+            </div>
+        </header>
+        <section class="space-y-6" id="encode-section">
+            <div class="flex items-center gap-2 mb-2">
+                <h2 class="text-2xl font-bold">Encode Message</h2>
+            </div>
+            <div id="encode-container"
+                class="blue-gradient-bg p-8 text-center rounded-[24px] border border-blue-100 dark:border-blue-900/50 shadow-sm transition-all relative overflow-hidden min-h-[300px] flex items-center justify-center">
+                <canvas id="encode-canvas" class="hidden w-full h-auto rounded-[24px]"></canvas>
+                <div id="encode-placeholder" class="flex flex-col items-center">
+                    <div class="upload-area">
+                        <div
+                            class="w-20 h-20 bg-white/80 dark:bg-slate-800/80 rounded-2xl mx-auto mb-4 flex items-center justify-center border border-blue-50 dark:border-slate-700">
+                            <span class="material-icons-round text-primary text-4xl">add_photo_alternate</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1">Select an Image</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-base mb-6">Tap to select your JPEG carrier
+                            image</p>
+                    </div>
+                    <button id="encode-upload-btn"
+                        class="px-10 py-4 bg-primary text-white font-semibold rounded-full shadow-lg shadow-blue-500/40 active:scale-95 transition-transform">
+                        Upload Image
+                    </button>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label class="text-base font-semibold text-slate-500 dark:text-slate-400 px-1">Enter the Message</label>
+                <div class="relative">
+                    <input
+                        class="w-full bg-white dark:bg-slate-800 border-none rounded-2xl py-5 px-6 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-primary transition-all outline-none"
+                        placeholder="Enter secret message here..." type="text" />
+                    <span
+                        class="material-icons-round absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <button
+                    class="w-full bg-secondary text-white py-6 rounded-2xl font-bold text-xl flex items-center justify-center gap-3 shadow-2xl shadow-slate-900/20 active:scale-[0.98] transition-all">
+                    Encode
+                    <span class="material-icons-round text-[20px]">lock</span>
+                </button>
+                <button
+                    class="w-full bg-white dark:bg-slate-800 text-primary border border-primary/20 py-5 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 shadow-sm active:scale-[0.98] transition-all">
+                    Download
+                    <span class="material-icons-round text-[20px]">download</span>
+                </button>
+            </div>
+            <div
+                class="flex items-center justify-center gap-2 py-3 px-5 bg-slate-100 dark:bg-slate-800/50 rounded-full w-fit mx-auto">
+                <span class="material-icons-round text-[16px] text-slate-400">info</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Supports PNG & JPEG
+                    (Lossless Preferred)</span>
+            </div>
+        </section>
+        <div class="relative flex py-5 items-center">
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+            <span class="flex-shrink mx-4 text-slate-300 dark:text-slate-700 material-icons-round">unfold_more</span>
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+        </div>
+        <section class="space-y-6" id="decode-section">
+            <div class="flex items-center gap-2 mb-2">
+                <h2 class="text-2xl font-bold">Decode Message</h2>
+            </div>
+            <div id="decode-container"
+                class="blue-gradient-bg p-8 text-center rounded-[24px] border border-blue-100 dark:border-blue-900/50 shadow-sm transition-all relative overflow-hidden min-h-[300px] flex items-center justify-center">
+                <canvas id="decode-canvas" class="hidden w-full h-auto rounded-[24px]"></canvas>
+                <div id="decode-placeholder" class="flex flex-col items-center">
+                    <div class="upload-area">
+                        <div
+                            class="w-16 h-16 bg-white/80 dark:bg-slate-800/80 rounded-full mx-auto mb-4 flex items-center justify-center border border-blue-50 dark:border-slate-700">
+                            <span class="material-icons-round text-primary text-3xl">image_search</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1">Select an Image</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-base mb-6">Upload the image containing the
+                            hidden message</p>
+                    </div>
+                    <button id="decode-upload-btn"
+                        class="px-10 py-4 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors border border-slate-200 dark:border-slate-600">
+                        Upload Image
+                    </button>
+                </div>
+            </div>
+            <button
+                class="w-full bg-primary text-white py-6 rounded-2xl font-bold text-xl tracking-wider shadow-xl shadow-blue-500/30 active:scale-[0.98] transition-all">
+                Decode
+            </button>
+            <div class="pt-8 pb-4 text-center space-y-3 hidden" id="decoded-message-area">
+                <span class="text-sm font-black uppercase tracking-[0.3em] text-slate-400">Decoded Message</span>
+                <div
+                    class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white py-2 break-all overflow-hidden max-h-40">
+
+                </div>
+            </div>
+            <div
+                class="bg-white dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm space-y-8">
+                <div class="text-center">
+                    <span class="text-sm font-semibold text-slate-400">Speech Synthesis</span>
+                </div>
+                <div class="flex items-center justify-between gap-6 px-4">
+                    <button
+                        class="w-20 h-20 bg-white dark:bg-slate-900 rounded-full shadow-xl shadow-slate-200 dark:shadow-none flex items-center justify-center text-primary active:scale-90 transition-transform border border-slate-100 dark:border-slate-800"
+                        disabled>
+                        <span class="material-icons-round text-4xl ml-1">play_arrow</span>
+                    </button>
+                    <div class="flex-grow flex items-center justify-center gap-1 h-16 hidden" id="sound-bars">
+                        <div class="w-1 h-3 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                        <div class="w-1 h-5 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                        <div class="w-1 h-8 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                        <div class="w-1 h-12 bg-primary rounded-full"></div>
+                        <div class="w-1 h-9 bg-primary rounded-full"></div>
+                        <div class="w-1 h-6 bg-primary rounded-full"></div>
+                        <div class="w-1 h-10 bg-primary rounded-full"></div>
+                        <div class="w-1 h-12 bg-primary rounded-full"></div>
+                        <div class="w-1 h-7 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                        <div class="w-1 h-4 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                        <div class="w-1 h-6 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div
+        class="fixed bottom-3 left-1/2 -translate-x-1/2 w-36 h-2 bg-slate-300 dark:bg-slate-700 rounded-full opacity-50">
+    </div>
+    <script src="static/js/steganography.min.js"></script>
+    <script src="static/js/script.js"></script>
+</body>
+
+</html>
