@@ -1,3 +1,4 @@
+// static/js/script.js
 // SteganoSpeech script
 document.addEventListener("DOMContentLoaded", () => {
     // Encode section
